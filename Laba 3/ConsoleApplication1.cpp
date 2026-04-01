@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <chrono>
@@ -37,14 +37,30 @@ void quickSort(int* arr, int low, int high) {
 
 void radixSort(std::vector<int>& arr) {
     if (arr.empty()) return;
+
     int maxVal = *std::max_element(arr.begin(), arr.end());
+
     for (int exp = 1; maxVal / exp > 0; exp *= 10) {
-        std::vector<int> buckets[10];
-        for (int x : arr) buckets[(x / exp) % 10].push_back(x);
-        arr.clear();
-        for (int i = 0; i < 10; i++) {
-            for (int x : buckets[i]) arr.push_back(x);
+        int n = arr.size();
+        std::vector<int> output(n);
+        std::vector<int> count(10, 0);
+
+        for (int i = 0; i < n; i++) {
+            int digit = (arr[i] / exp) % 10;
+            count[digit]++;
         }
+
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            int digit = (arr[i] / exp) % 10;
+            output[count[digit] - 1] = arr[i];
+            count[digit]--;
+
+        }
+        arr = output;
     }
 }
 
