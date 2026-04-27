@@ -1,20 +1,16 @@
 import matplotlib.pyplot as plt
-
-# Данные из вашего скриншота
 sizes = [1000, 10000, 50000, 100000, 500000, 1000000]
 
 comb_sort = [0, 1, 8, 18, 105, 265]
 quick_sort = [0, 1, 7, 17, 97, 238]
 radix_sort = [0, 2, 13, 31, 189, 332]
 
-# Создание графика
 plt.figure(figsize=(10, 6))
 
 plt.plot(sizes, comb_sort, marker='o', linestyle='-', label='Comb Sort')
 plt.plot(sizes, quick_sort, marker='s', linestyle='--', label='Quick Sort')
 plt.plot(sizes, radix_sort, marker='^', linestyle='-.', label='Radix Sort')
 
-# Настройка осей и заголовков
 plt.title('Сравнение скорости алгоритмов сортировки', fontsize=14)
 # Используем логарифмическую шкалу для X, чтобы маленькие значения не слипались
 plt.xscale('log') 
