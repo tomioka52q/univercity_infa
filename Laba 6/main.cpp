@@ -1,4 +1,4 @@
-﻿#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -52,26 +52,26 @@ bool isValid(int x, int y) {
     return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE);
 }
 
-// Поиск пути A*
+// Метод A*
 void a_star_algorithm(vector<vector<Cell>>& grid, Cell* start, Cell* end) {
-    priority_queue<Cell*, vector<Cell*>, CompareCells> open_list;
+    priority_queue<Cell*, vector<Cell*>, CompareCells> open_list; // сортирует ячейки, чтобы наверху лежала ячейка с самым маленьким значением f 
 
-    start->g = 0;
-    start->h = heuristic(*start, *end);
-    start->f = start->g + start->h;
-    open_list.push(start);
+    start->g = 0; // Расстояние от старта до старта 0 
+    start->h = heuristic(*start, *end); // Примерное расстояние до цели
+    start->f = start->g + start->h; // Итоговый вес
+    open_list.push(start); // Кладем старт в очередь
 
     while (!open_list.empty()) {
-        Cell* current = open_list.top();
+        Cell* current = open_list.top(); // Берем ячейку с наименьшим f
         open_list.pop();
 
         if (current == end) {
             // Восстанавливаем путь
             Cell* temp = end->parent;
-            while (temp != nullptr && temp->type != START) {
-                temp->type = PATH;
-                temp = temp->parent;
-            }
+            while (temp != nullptr && temp->type != START) { // Идем назад до старта
+                temp->type = PATH; // Помечаем каждую промежуточную ячейку как путь
+                temp = temp->parent; // Переходим к следующему родителю
+            } 
             return;
         }
 
@@ -85,10 +85,10 @@ void a_star_algorithm(vector<vector<Cell>>& grid, Cell* start, Cell* end) {
             int nx = current->x + dx[i];
             int ny = current->y + dy[i];
 
-            if (isValid(nx, ny) && grid[nx][ny].type != OBSTACLE && grid[nx][ny].type != VISITED) {
+            if (isValid(nx, ny) && grid[nx][ny].type != OBSTACLE && grid[nx][ny].type != VISITED) { // Если координаты в сетке и это не стена и мы там еще не были
                 int new_g = current->g + 1;
 
-                if (new_g < grid[nx][ny].g || grid[nx][ny].g == 0) {
+                if (new_g < grid[nx][ny].g || grid[nx][ny].g == 0) { // Если новый путь короче
                     grid[nx][ny].parent = current;
                     grid[nx][ny].g = new_g;
                     grid[nx][ny].h = heuristic(grid[nx][ny], *end);
