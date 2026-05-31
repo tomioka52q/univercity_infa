@@ -101,7 +101,7 @@ void a_star_algorithm(vector<vector<Cell>>& grid, Cell* start, Cell* end) {
 }
 
 int main() {
-    RenderWindow window(VideoMode(WINDOW_SIZE, WINDOW_SIZE), "A* Pathfinding");
+    RenderWindow window(VideoMode(WINDOW_SIZE, WINDOW_SIZE), "A*");
 
     // Создаем сетку
     vector<vector<Cell>> grid;
