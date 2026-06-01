@@ -1,4 +1,5 @@
 // Задача 1 Лампочки
+
 class TreeNode:
     def __init__(self, key, left=None, right=None):
         self.key = key      # яркость лампочки
@@ -27,6 +28,7 @@ print(f"Самая яркая лампочка имеет яркость: {resul
 
 
 // Задача 2 Дерево - анаграмма
+    
 class Node:
      def __init__(self, value, left=None, right=None):
          self.value = value
@@ -176,6 +178,7 @@ int main() {
 }
 
 // Задача 4 Разные деревья поиска
+
 n = int(input())
 
 # Создаем список (массив) для хранения ответов
@@ -200,6 +203,7 @@ for nodes_count in range(1, n + 1):
 print(dp[n])
 
 // Задача 5 Числовые пути
+
 class Node:
     def __init__(self, value, left=None, right=None):
         self.value = value
@@ -240,4 +244,72 @@ test_root = Node(1, Node(3), Node(5))
 # Вызываем твою функцию
 print(solution(test_root))  # Выведет 28
 
-//Задача 6
+//Задача 6 Максимальный путь в дереве
+
+class Node:
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+        
+def solution(root):
+    # Используем список из одного элемента, чтобы хранить глобальный максимум.
+    # Это нужно, чтобы изменять его внутри вложенной функции.
+    # Изначально ставим очень маленькое число.
+    max_score = [-float('inf')]
+
+    def get_max_gain(node):
+        if node is None:
+            return 0
+        
+        # Считаем максимальные очки слева и справа. 
+        # Если там минус — берем 0 (просто не идем туда).
+        left_gain = max(get_max_gain(node.left), 0)
+        right_gain = max(get_max_gain(node.right), 0)
+        
+        # Считаем сумму пути, который "изгибается" в текущем узле
+        # (левое поддерево + сам узел + правое поддерево)
+        current_path_sum = node.value + left_gain + right_gain
+        
+        # Если этот путь лучше всех, что мы видели раньше — обновляем рекорд
+        if current_path_sum > max_score[0]:
+            max_score[0] = current_path_sum
+            
+        # Возвращаем родителю максимальный путь, который можно продолжить "вверх"
+        # Это либо узел + левая ветка, либо узел + правая ветка
+        return node.value + max(left_gain, right_gain)
+
+    # Запускаем рекурсию
+    get_max_gain(root)
+    
+    # Возвращаем накопленный глобальный максимум
+    return max_score[0]
+
+test_root = Node(1, Node(1), Node(2))
+
+# Вызываем твою функцию
+print(solution(test_root))
+
+//Задача 7 Максимальная глубина
+
+//Задача 8 Деревья – близнецы
+
+class Node:
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+def solution(root1, root2):
+    # Если оба пустые - они одинаковые
+    if root1 is None and root2 is None:
+        return True
+    # Если один пустой, а другой нет - разные
+    if root1 is None or root2 is None:
+        return False
+    # Если значения разные - разные
+    if root1.value != root2.value:
+        return False
+    
+    # Проверяем левые части и правые части
+    return solution(root1.left, root2.left) and solution(root1.right, root2.right)
